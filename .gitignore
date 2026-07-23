@@ -216,3 +216,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---- Proyecto: Lavadero · Turnos ----
+
+# Backend: base de datos SQLite local y variables de entorno
+backend/*.db
+backend/.env
+*.sqlite3
+
+# Frontend: dependencias y build de Node/Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.local
+npm-debug.log*
+yarn-error.log*
+
+# Editores / OS
+.vscode/
+.idea/
+.DS_Store
