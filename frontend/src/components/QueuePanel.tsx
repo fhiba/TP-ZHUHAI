@@ -13,7 +13,7 @@ export function QueuePanel({ entries, busyTypes, onJoin, onLeave, onClaim }: Pro
   return (
     <section className="panel">
       <div className="panel__head">
-        <span className="micro">Tu cola</span>
+        <span className="panel__title">Tu cola</span>
       </div>
       <div className="panel__body">
         <div className="queue-actions">

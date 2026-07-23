@@ -1,13 +1,17 @@
 import { useAuth } from "../context/AuthContext";
 import { NotificationBell } from "./NotificationBell";
+import { DrumIcon } from "./DrumIcon";
 
 export function TopBar() {
   const { user, logout } = useAuth();
   return (
     <header className="topbar">
       <div className="brand">
-        <span className="brand__mark">LAVADERO</span>
-        <span className="brand__sub">Turnos</span>
+        <span className="brand__logo">
+          <DrumIcon size={20} />
+        </span>
+        <span className="brand__name">Lavadero</span>
+        <span className="brand__sub">· Turnos</span>
       </div>
       <div className="spacer" />
       <span className="topbar__user">@{user?.username}</span>

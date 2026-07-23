@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useAuth } from "../context/AuthContext";
 import { ApiError } from "../api/client";
+import { DrumIcon } from "../components/DrumIcon";
 
 type Mode = "login" | "register";
 
@@ -31,11 +32,16 @@ export function AuthScreen() {
   return (
     <div className="auth-screen">
       <form className="auth-card" onSubmit={onSubmit}>
-        <div className="auth-card__brand">LAVADERO · TURNOS</div>
+        <div className="auth-logo">
+          <DrumIcon size={26} />
+        </div>
+        <div className="auth-card__title">
+          {isLogin ? "Bienvenido de nuevo" : "Creá tu cuenta"}
+        </div>
         <div className="auth-card__sub">
           {isLogin
             ? "Ingresá para ver el estado de las máquinas."
-            : "Creá una cuenta para encolarte."}
+            : "Registrate para encolarte y recibir avisos."}
         </div>
 
         <div className="field">
@@ -44,6 +50,7 @@ export function AuthScreen() {
             className="input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="tu usuario"
             autoComplete="username"
             autoFocus
             required
@@ -56,6 +63,7 @@ export function AuthScreen() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
             autoComplete={isLogin ? "current-password" : "new-password"}
             required
           />

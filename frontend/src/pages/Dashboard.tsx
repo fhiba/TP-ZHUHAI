@@ -56,7 +56,10 @@ export function Dashboard() {
               return (
                 <section className="section" key={type}>
                   <div className="section__head">
-                    <span className="micro">{TYPE_LABEL[type]}</span>
+                    <span className="section__title">{TYPE_LABEL[type]}</span>
+                    <span className="section__count">
+                      {group.filter((m) => m.status === "available").length} libres
+                    </span>
                   </div>
                   <div className="machine-grid">
                     {group.map((m, i) => (
