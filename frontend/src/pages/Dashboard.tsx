@@ -12,7 +12,8 @@ import { TopBar } from "../components/TopBar";
 import { StatBar } from "../components/StatBar";
 import { MachineCard } from "../components/MachineCard";
 import { QueuePanel } from "../components/QueuePanel";
-import { LiveFeedPlaceholder } from "../components/LiveFeedPlaceholder";
+import { LiveFeed } from "../components/LiveFeed";
+import { DryerMark, WasherMark } from "../components/DrumIcon";
 import { TYPE_LABEL } from "../lib/format";
 
 const GROUPS: MachineType[] = ["washer", "dryer"];
@@ -38,30 +39,56 @@ export function Dashboard() {
       await action();
       refresh();
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : "No se pudo completar la acción.");
+      setError(e instanceof ApiError ? e.message : "Could not complete the action.");
     }
   }
 
   return (
-    <>
+    <div className="app-shell">
       <TopBar />
-      <div className="container">
-        <div className="layout">
-          <main>
+      <div className="board">
+        <div className="board__main">
+          <LiveFeed machines={machines} />
+          <div className="board__queue">
+            {error && <p className="form-error form-error--compact">{error}</p>}
+            <QueuePanel
+              entries={entries}
+              busyTypes={busyTypes}
+              onJoin={(t) => run(() => api.joinQueue(t))}
+              onLeave={(id) => run(() => api.leaveQueue(id))}
+              onClaim={(id) => run(() => api.claim(id))}
+            />
+          </div>
+        </div>
+
+        <section className="board__machines panel">
+          <div className="panel__head">
+            <span className="panel__title">Machines</span>
             <StatBar machines={machines} />
+          </div>
+          <div className="board__machines-body">
             {GROUPS.map((type) => {
               const group = machines
                 .filter((m) => m.type === type)
                 .sort((a, b) => a.id - b.id);
               return (
-                <section className="section" key={type}>
-                  <div className="section__head">
-                    <span className="section__title">{TYPE_LABEL[type]}</span>
-                    <span className="section__count">
-                      {group.filter((m) => m.status === "available").length} libres
+                <div className="machine-group" key={type}>
+                  <div className="machine-group__head">
+                    <span className="machine-group__title">
+                      <span className="machine-group__mark">
+                        {type === "dryer" ? (
+                          <DryerMark size={14} />
+                        ) : (
+                          <WasherMark size={14} />
+                        )}
+                      </span>
+                      {TYPE_LABEL[type]}s
+                    </span>
+                    <span className="machine-group__count">
+                      {group.filter((m) => m.status === "available").length} free
                     </span>
                   </div>
-                  <div className="machine-grid">
+                  <div className="machine-list">
                     {group.map((m, i) => (
                       <MachineCard
                         key={m.id}
@@ -71,24 +98,12 @@ export function Dashboard() {
                       />
                     ))}
                   </div>
-                </section>
+                </div>
               );
             })}
-          </main>
-
-          <aside>
-            {error && <p className="form-error">{error}</p>}
-            <QueuePanel
-              entries={entries}
-              busyTypes={busyTypes}
-              onJoin={(t) => run(() => api.joinQueue(t))}
-              onLeave={(id) => run(() => api.leaveQueue(id))}
-              onClaim={(id) => run(() => api.claim(id))}
-            />
-            <LiveFeedPlaceholder />
-          </aside>
-        </div>
+          </div>
+        </section>
       </div>
-    </>
+    </div>
   );
 }

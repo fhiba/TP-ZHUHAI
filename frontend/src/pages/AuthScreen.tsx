@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useAuth } from "../context/AuthContext";
 import { ApiError } from "../api/client";
-import { DrumIcon } from "../components/DrumIcon";
+import { BrandMark } from "../components/DrumIcon";
 
 type Mode = "login" | "register";
 
@@ -23,7 +23,7 @@ export function AuthScreen() {
       if (isLogin) await login(username.trim(), password);
       else await register(username.trim(), password);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Algo salió mal.");
+      setError(err instanceof ApiError ? err.message : "Something went wrong.");
     } finally {
       setBusy(false);
     }
@@ -32,32 +32,32 @@ export function AuthScreen() {
   return (
     <div className="auth-screen">
       <form className="auth-card" onSubmit={onSubmit}>
-        <div className="auth-logo">
-          <DrumIcon size={26} />
+        <div className="auth-logo" aria-hidden>
+          <BrandMark size={24} />
         </div>
         <div className="auth-card__title">
-          {isLogin ? "Bienvenido de nuevo" : "Creá tu cuenta"}
+          {isLogin ? "Welcome back" : "Create your account"}
         </div>
         <div className="auth-card__sub">
           {isLogin
-            ? "Ingresá para ver el estado de las máquinas."
-            : "Registrate para encolarte y recibir avisos."}
+            ? "Sign in to see machine status."
+            : "Register to join the queue and get notified."}
         </div>
 
         <div className="field">
-          <label className="micro">Usuario</label>
+          <label className="micro">Username</label>
           <input
             className="input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="tu usuario"
+            placeholder="your username"
             autoComplete="username"
             autoFocus
             required
           />
         </div>
         <div className="field">
-          <label className="micro">Contraseña</label>
+          <label className="micro">Password</label>
           <input
             className="input"
             type="password"
@@ -72,11 +72,11 @@ export function AuthScreen() {
         {error && <p className="form-error">{error}</p>}
 
         <button className="btn btn--block" type="submit" disabled={busy}>
-          {busy ? "…" : isLogin ? "Ingresar" : "Crear cuenta"}
+          {busy ? "…" : isLogin ? "Sign in" : "Create account"}
         </button>
 
         <div className="auth-switch">
-          {isLogin ? "¿No tenés cuenta? " : "¿Ya tenés cuenta? "}
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             type="button"
             className="link-btn"
@@ -85,7 +85,7 @@ export function AuthScreen() {
               setError(null);
             }}
           >
-            {isLogin ? "Registrate" : "Ingresá"}
+            {isLogin ? "Sign up" : "Sign in"}
           </button>
         </div>
       </form>

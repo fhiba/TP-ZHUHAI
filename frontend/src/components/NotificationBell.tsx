@@ -31,7 +31,7 @@ export function NotificationBell() {
       <button
         className="bell"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Notificaciones"
+        aria-label="Notifications"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
           <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -43,16 +43,16 @@ export function NotificationBell() {
       {open && (
         <div className="popover">
           <div className="panel__head">
-            <span className="micro">Notificaciones</span>
+            <span className="micro">Notifications</span>
             {unread > 0 && (
               <button className="link-btn" onClick={markAll}>
-                marcar leídas
+                mark all read
               </button>
             )}
           </div>
           {notifs.length === 0 ? (
             <div className="empty" style={{ padding: "14px" }}>
-              Sin novedades.
+              No notifications yet.
             </div>
           ) : (
             notifs.map((n) => (

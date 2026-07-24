@@ -9,21 +9,17 @@ export function StatBar({ machines }: Props) {
     machines.filter((m) => m.status === s).length;
 
   const cells: { key: string; num: number; label: string }[] = [
-    { key: "available", num: count("available"), label: "Libres" },
-    { key: "in_use", num: count("in_use"), label: "En uso" },
-    { key: "finished", num: count("finished"), label: "Terminados" },
-    { key: "total", num: machines.length, label: "Máquinas" },
+    { key: "available", num: count("available"), label: "Free" },
+    { key: "in_use", num: count("in_use"), label: "Busy" },
+    { key: "finished", num: count("finished"), label: "Done" },
   ];
 
   return (
-    <div className="statbar">
+    <div className="statpills">
       {cells.map((c) => (
-        <div className={`stat stat--${c.key}`} key={c.key}>
-          <div className="stat__num">{c.num}</div>
-          <div className="stat__label">
-            <span className="dot" />
-            {c.label}
-          </div>
+        <div className={`statpill statpill--${c.key}`} key={c.key}>
+          <span className="statpill__num">{c.num}</span>
+          <span className="statpill__label">{c.label}</span>
         </div>
       ))}
     </div>

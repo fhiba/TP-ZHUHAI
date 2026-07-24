@@ -1,6 +1,6 @@
 import type { Machine } from "../api/client";
 import { STATUS_LABEL, STATUS_META, machineCode, timeAgo } from "../lib/format";
-import { DrumIcon } from "./DrumIcon";
+import { DryerMark, WasherMark } from "./DrumIcon";
 
 interface Props {
   machine: Machine;
@@ -11,28 +11,30 @@ interface Props {
 export function MachineCard({ machine, indexInGroup, isMine }: Props) {
   const meta =
     isMine && machine.status !== "available"
-      ? "Tu ropa está acá"
+      ? "Your laundry is here"
       : STATUS_META[machine.status];
 
+  const Mark = machine.type === "dryer" ? DryerMark : WasherMark;
+
   return (
-    <div className={`machine is-${machine.status}`}>
-      <div className="machine__top">
-        <span className="drum">
-          <DrumIcon size={24} />
+    <div className={`mrow is-${machine.status}`}>
+      <span className="mrow__mark" title={machine.label}>
+        <span className="mrow__icon">
+          <Mark size={20} />
         </span>
-        <span className="chip">
-          <span className="dot" />
-          {STATUS_LABEL[machine.status]}
-        </span>
+        <span className="mrow__code">{machineCode(machine.type, indexInGroup)}</span>
+      </span>
+      <div className="mrow__main">
+        <div className="mrow__name">{machine.label}</div>
+        <div className="mrow__meta">
+          {meta}
+          <span className="mrow__ago"> · {timeAgo(machine.updated_at)}</span>
+        </div>
       </div>
-      <div className="machine__code">
-        {machineCode(machine.type, indexInGroup)}
-      </div>
-      <h3 className="machine__label">{machine.label}</h3>
-      <p className="machine__meta">
-        <b>{meta}</b>
-        <span className="machine__upd"> · {timeAgo(machine.updated_at)}</span>
-      </p>
+      <span className={`chip chip--${machine.status}`}>
+        <span className="dot" />
+        {STATUS_LABEL[machine.status]}
+      </span>
     </div>
   );
 }

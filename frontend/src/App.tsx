@@ -6,7 +6,7 @@ export function App() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="center-screen">cargando…</div>;
+    return <div className="center-screen">loading…</div>;
   }
   return user ? <Dashboard /> : <AuthScreen />;
 }
